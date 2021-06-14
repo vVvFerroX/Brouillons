@@ -1,0 +1,25 @@
+---
+#packages for lamp
+package_name:
+  - mysql-server
+  - python-mysqldb
+
+#variable for mysql
+mysql_db: "database"
+mysql_user: ""
+
+###########
+- name: Start mysql
+  service:
+    name: mysql
+    state: started
+    
+- name: Create database
+  mysql_db:
+    name: "{{ database }}"
+    become: yes
+
+- name: run mysql_upgrade
+  shell: "mysql_upgrade -u {{mysql_user}} -p {{mysql_password }}"
+
+ansible-playbook upgrade.yml --extra-vars "mysql_user=iven mysql_pass=Passw0rd"
